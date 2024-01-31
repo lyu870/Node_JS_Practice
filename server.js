@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 
 
 const { MongoClient } = require('mongodb')
@@ -30,4 +31,16 @@ app.get('/about', (req, res) => {
 
 app.get('/news', (req, res) => {
     res.send('오늘은 비가옵니다');
+})
+
+// await은 다음줄이 실행되기 전에 기다리라는 명령
+// await을 쓰지않는다면 아래코드의 첫번째줄이 실행 다 되기도 전에
+// 밑의 코드들이 실행되려고 할것임.
+app.get('/list', async(req, res) => {
+  let result = await db.collection('post').find().toArray();
+  res.render('list.ejs', { posts : result});
+})
+
+app.get('/time', async(req, res) => {
+  res.render('time.ejs', { time : new Date() });
 })
