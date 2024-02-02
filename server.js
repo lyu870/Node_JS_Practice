@@ -36,6 +36,7 @@ app.get('/news', (req, res) => {
 // await은 다음줄이 실행되기 전에 기다리라는 명령
 // await을 쓰지않는다면 아래코드의 첫번째줄이 실행 다 되기도 전에
 // 밑의 코드들이 실행되려고 할것임.
+// response 응답은 코드내에서 1번만 가능.
 app.get('/list', async(req, res) => {
   let result = await db.collection('post').find().toArray();
   res.render('list.ejs', { posts : result});
