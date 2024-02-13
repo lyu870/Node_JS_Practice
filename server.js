@@ -3,9 +3,12 @@ const app = express();
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
+app.use(express.json())
+app.use(express.urlencoded({extended:true})) 
 
 
 const { MongoClient } = require('mongodb')
+// const ObjectId = require('mongodb').ObjectId;
 
 let db;
 const url = 'mongodb+srv://admin:qqqq1111@cluster0.nzbpycy.mongodb.net/?retryWrites=true&w=majority'
@@ -26,11 +29,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/about', (req, res) => {
-    res.sendFile(__dirname + '/about.html');
+  res.sendFile(__dirname + '/about.html');
 })
 
 app.get('/news', (req, res) => {
-    res.send('오늘은 비가옵니다');
+  res.send('오늘은 비가와요');
 })
 
 // await은 다음줄이 실행되기 전에 기다리라는 명령
@@ -42,6 +45,15 @@ app.get('/list', async(req, res) => {
   res.render('list.ejs', { posts : result});
 })
 
-app.get('/time', async(req, res) => {
+app.get('/write', async(req, res) => {
+  res.render('write.ejs');
+})
+
+app.get('/time', (req, res) => {
   res.render('time.ejs', { time : new Date() });
 })
+
+app.post('/add', (req, res) => {
+  console.log(res.body);
+})
+
