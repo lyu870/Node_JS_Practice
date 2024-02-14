@@ -29,12 +29,12 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
-app.get('/about', (req, res) => {
-    res.sendFile(__dirname + '/about.html');
-})
-
 app.get('/news', (req, res) => {
     res.send('오늘은 비가와요');
+})
+
+app.get('/time', (req, res) => {
+  res.render('time.ejs', { time : new Date() });
 })
 
 // await은 다음줄이 실행되기 전에 기다리라는 명령
@@ -50,10 +50,9 @@ app.get('/write', (req, res) => {
 res.render('write.ejs');
 })
 
-app.get('/time', (req, res) => {
-  res.render('time.ejs', { time : new Date() });
-})
-
-app.post('/add', (req, res)=>{
-  console.log(req.body)
+// write.ejs안의 form태그에서 action='/add'로 받아와 post를 날림
+// post는 req로 받는다
+app.post('/add', async (req, res)=>{
+  await db.collection('post').insertOne({ title : req.body.title, content : req.body.content });
+  res.redirect('/list')
 })
