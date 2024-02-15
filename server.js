@@ -53,6 +53,20 @@ res.render('write.ejs');
 // write.ejs안의 form태그에서 action='/add'로 받아와 post를 날림
 // post는 req로 받는다
 app.post('/add', async (req, res)=>{
-  await db.collection('post').insertOne({ title : req.body.title, content : req.body.content });
-  res.redirect('/list')
+  try {
+    if(req.body.title == '') {
+      res.send('제목입력안함');
+    } else {
+      await db.collection('post').insertOne({ title : req.body.title, content : req.body.content });
+      res.redirect('/list');
+    }
+  } catch(e) {
+    // console.log()로 변수e를 출력하면 어떤 에러가 나는지 파악가능
+    console.log(e);
+    res.status(500).send('server error');
+  }
+})
+
+app.get('/detail/:aaaa', (req, res) => {
+  res.render('detail.ejs');
 })
