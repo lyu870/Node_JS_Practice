@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body class="grey-bg">
 
     <%- include('nav.ejs') %>
 
-
+    <div class="detail-bg">
+        <!-- server.js에서 result값을 저장했으니 result를 이용가능 -->
+        <h4> <%= result.title %> </h4>
+        <p> <%= result.content %> </p>
+    </div>
     
 </body>
 </html>

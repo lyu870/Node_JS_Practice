@@ -1,28 +1,26 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const { MongoClient} = require('mongodb');
+const { ObjectId } = require('mongodb');
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(express.static(__dirname + '/public'))
-app.set('view engine', 'ejs')
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 
-
-
-const { MongoClient } = require('mongodb')
-// const ObjectId = require('mongodb').ObjectId;
 
 let db;
 const url = 'mongodb+srv://admin:qqqq1111@cluster0.nzbpycy.mongodb.net/?retryWrites=true&w=majority'
 new MongoClient(url).connect().then((client)=>{
   console.log('DB연결성공')
-  db = client.db('forum')
+  db = client.db('forum');
 
   app.listen(8080, () => {
     console.log('http://localhost:8080 에서 서버 실행중');
   })
 
-}).catch((err)=>{
-  console.log(err)
+}).catch((err) => {
+  console.log(err);
 })
 
 app.get('/', (req, res) => {
@@ -67,6 +65,10 @@ app.post('/add', async (req, res)=>{
   }
 })
 
-app.get('/detail/:aaaa', (req, res) => {
-  res.render('detail.ejs');
+app.get('/detail/:id', async (req, res) => {
+  // findOne으로 post콜렉션에 있는 id를 참조하여 req.params.id와 동일한 콜렉션 행의 데이터(게시글타이틀, 내용)를 result에 저장시켜줌
+  let result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) });
+
+  // 저장한 result값을 detail.ejs에 보내줌
+  res.render('detail.ejs', { result : result });
 })
