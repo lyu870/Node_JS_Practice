@@ -66,6 +66,7 @@ app.post('/add', async (req, res)=>{
 })
 
 app.get('/detail/:id', async (req, res) => {
+  // req.params.id = parseInt(req.params.id);
   // findOne으로 post콜렉션에 있는 id를 참조하여 req.params.id와 동일한 콜렉션 행의 데이터(게시글타이틀, 내용)를 result에 저장시켜줌
   let result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) });
 
