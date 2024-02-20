@@ -10,28 +10,20 @@
 
   <%- include('nav.ejs') %>
 
-  
     <!-- <%= JSON.stringify(posts) %> -->
-
 
     <% for(let i = 0; i<posts.length; i++) { %>
       <div class="white-bg">
         <div class="list-box">
-          <h4> <%= posts[i].title %> </h4>
+          <h4>
+            <a href="/detail/<%= posts[i]._id %>" style="text-decoration: none;">
+              <%= posts[i].title %>
+            </a>
+          </h4>
           <p> <%= posts[i].content %> </p>
         </div>
       </div>
     <% } %>
-    <!-- <div class="white-bg">
-        <div class="list-box">
-          <h4> <%= posts[0].title %> </h4>
-          <p> <%= posts[0].content %> </p>
-        </div>
-        <div class="list-box">
-          <h4> <%= posts[1].title %> </h4>
-          <p> <%= posts[1].content %> </p>
-        </div>
-    </div> -->
 
 </body>
 </html>
