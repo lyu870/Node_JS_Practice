@@ -41,7 +41,8 @@ app.get('/time', (req, res) => {
 // response 응답은 코드내에서 1번만 가능.
 app.get('/list', async(req, res) => {
   let result = await db.collection('post').find().toArray();
-  res.render('list.ejs', { posts : result});
+  res.render('list.ejs', { posts : result });
+  // { }
 })
 
 app.get('/write', (req, res) => {
@@ -66,10 +67,17 @@ app.post('/add', async (req, res)=>{
 })
 
 app.get('/detail/:id', async (req, res) => {
-  // req.params.id = parseInt(req.params.id);
   // findOne으로 post콜렉션에 있는 id를 참조하여 req.params.id와 동일한 콜렉션 행의 데이터(게시글타이틀, 내용)를 result에 저장시켜줌
-  let result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) });
-
-  // 저장한 result값을 detail.ejs에 보내줌
-  res.render('detail.ejs', { result : result });
+  try {
+    let result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) });
+    if (result == null) {
+      res.status(400).send('url입력 잘못했어요');
+    }
+    else {
+      res.render('detail.ejs', { result : result }); 
+    }
+  } catch(e) {
+    console.log(e);
+    res.status(400).send('url입력 잘못했어요');
+  }
 })
