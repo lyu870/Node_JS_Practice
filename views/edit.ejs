@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+    <%- include('nav.ejs') %>
+
+    <form class="form-box" action="/edit" method="POST">
+        <h4>글 수정</h4>
+
+        <!-- 아래처럼 id 숨겨도 프론트엔드에선 언제나 수정가능하기 때문에
+        서버에서 기능처리를 해줘야 함 -->
+        <input name="id" value="<%= result._id %>" style="display: none;">
+        <input name="title" value="<%= result.title %>">
+        <input name="content" value="<%= result.content %>">
+        <button type="submit">작성하기</button>
+    </form>
+    
+</body>
+</html>

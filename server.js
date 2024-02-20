@@ -27,10 +27,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
-app.get('/news', (req, res) => {
-    res.send('오늘은 비가와요');
-})
-
 app.get('/time', (req, res) => {
   res.render('time.ejs', { time : new Date() });
 })
@@ -80,4 +76,17 @@ app.get('/detail/:id', async (req, res) => {
     console.log(e);
     res.status(400).send('url입력 잘못했어요');
   }
+})
+
+app.get('/edit/:id', async (req, res) => {
+  let result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) });
+  res.render('edit.ejs', { result : result });
+})
+
+app.post('/edit', async (req, res) => {
+  let result = await db.collection('post').
+  updateOne( { _id : new ObjectId(req.body.id) }, 
+    {$set : { title : req.body.title, content : req.body.content }} );
+  console.log(req.body);
+  res.redirect('/list');
 })
