@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const { MongoClient} = require('mongodb');
 const { ObjectId } = require('mongodb');
+const methodOverride = require('method-override');
 
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname + '/public'));
@@ -70,7 +72,7 @@ app.get('/detail/:id', async (req, res) => {
       res.status(400).send('url입력 잘못했어요');
     }
     else {
-      res.render('detail.ejs', { result : result }); 
+      res.render('detail.ejs', { result : result });
     }
   } catch(e) {
     console.log(e);
@@ -83,7 +85,7 @@ app.get('/edit/:id', async (req, res) => {
   res.render('edit.ejs', { result : result });
 })
 
-app.post('/edit', async (req, res) => {
+app.put('/edit', async (req, res) => {
   let result = await db.collection('post').
   updateOne( { _id : new ObjectId(req.body.id) }, 
     {$set : { title : req.body.title, content : req.body.content }} );
