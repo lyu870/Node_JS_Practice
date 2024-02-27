@@ -86,9 +86,13 @@ app.get('/edit/:id', async (req, res) => {
 })
 
 app.put('/edit', async (req, res) => {
-  let result = await db.collection('post').
-  updateOne( { _id : new ObjectId(req.body.id) }, 
+  let result = await db.collection('post').updateOne( { _id : new ObjectId(req.body.id) }, 
     {$set : { title : req.body.title, content : req.body.content }} );
   console.log(req.body);
   res.redirect('/list');
 })
+
+// app.put('/edit', async (req, res) => {
+//   let result = await db.collection('post').updateMaby( { like : { $gt : 5 } }, 
+//     {$set : { like : 10 }} );
+// })
