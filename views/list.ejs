@@ -24,11 +24,18 @@
                 <%= posts[i].title %>
             </a>
             <a href="/edit/<%= posts[i]._id %>">✏️</a>
+            <span class="delete">🗑️</span>
           </h4>
           <p> <%= posts[i].content %> </p>
         </div>
       </div>
     <% } %>
 
+    
+    <script>
+      document.querySelectorAll('.delete')[0].addEventListener('click', function() {
+        fetch();
+      }) 
+    </script>
 </body>
 </html>
