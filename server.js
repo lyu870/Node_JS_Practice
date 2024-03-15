@@ -96,3 +96,7 @@ app.put('/edit', async (req, res) => {
 //   let result = await db.collection('post').updateMaby( { like : { $gt : 5 } }, 
 //     {$set : { like : 10 }} );
 // })
+
+app.post('/abc', async (req, res) => {
+  console.log('hello');
+})
