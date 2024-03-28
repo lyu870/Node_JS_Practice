@@ -93,7 +93,8 @@ app.put('/edit', async (req, res) => {
 })
 
 app.delete('/delete', async (req, res) => {
-  let result = await db.collection('post').deleteOne( { _id : new ObjectId(req.query.docid)});
+  let result = await db.collection('post').
+  deleteOne( { _id : new ObjectId(req.query.docid)});
   res.send('delete complete.');
 })
 
@@ -101,7 +102,3 @@ app.delete('/delete', async (req, res) => {
 //   let result = await db.collection('post').updateMaby( { like : { $gt : 5 } }, 
 //     {$set : { like : 10 }} );
 // })
-
-app.post('/abc', async (req, res) => {
-  console.log('hello');
-})
