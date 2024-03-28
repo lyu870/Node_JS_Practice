@@ -92,6 +92,11 @@ app.put('/edit', async (req, res) => {
   res.redirect('/list');
 })
 
+app.delete('/delete', async (req, res) => {
+  let result = await db.collection('post').deleteOne( { _id : new ObjectId(req.query.docid)});
+  res.send('delete complete.');
+})
+
 // app.put('/edit', async (req, res) => {
 //   let result = await db.collection('post').updateMaby( { like : { $gt : 5 } }, 
 //     {$set : { like : 10 }} );
