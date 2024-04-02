@@ -24,7 +24,7 @@
                 <%= posts[i].title %>
             </a>
             <a href="/edit/<%= posts[i]._id %>" style="text-decoration: none;">✏️</a> 
-            <span class="delete" data-id="<%= posts[0]._id %>">🗑️</span>
+            <span class="delete" data-id="<%= posts[i]._id %>">🗑️</span>
           </h4>
           <p> <%= posts[i].content %> </p>
         </div>
@@ -32,12 +32,15 @@
     <% } %>
 
     <script>
-        document.querySelectorAll('.delete')[0].
-        addEventListener('click', function(e){
+      // 각 삭제 버튼에 대해 이벤트 리스너를 추가합니다.
+      document.querySelectorAll('.delete').forEach(function(span) {
+        span.addEventListener('click', function(e) {
+          // 클릭된 버튼의 데이터 ID를 가져와서 삭제 요청을 보냅니다.
           fetch('/delete?docid=' + e.target.dataset.id, {
-            method : 'DELETE',
-          })
-        })
+            method: 'DELETE'
+          });
+        });
+      });
     </script>
 </body>
 </html>
