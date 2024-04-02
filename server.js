@@ -93,8 +93,7 @@ app.put('/edit', async (req, res) => {
 })
 
 app.delete('/delete', async (req, res) => {
-  let result = await db.collection('post').
-  deleteOne( { _id : new ObjectId(req.query.docid)});
+  await db.collection('post').deleteOne( { _id : new ObjectId(req.query.docid) });
   res.send('delete complete.');
 })
 
