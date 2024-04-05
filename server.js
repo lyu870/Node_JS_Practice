@@ -40,7 +40,6 @@ app.get('/time', (req, res) => {
 app.get('/list', async(req, res) => {
   let result = await db.collection('post').find().toArray();
   res.render('list.ejs', { posts : result });
-  // { }
 })
 
 app.get('/write', (req, res) => {
@@ -101,3 +100,8 @@ app.delete('/delete', async (req, res) => {
 //   let result = await db.collection('post').updateMaby( { like : { $gt : 5 } }, 
 //     {$set : { like : 10 }} );
 // })
+
+app.get('/list/:id', async(req, res) => {
+  let result = await db.collection('post').find().skip((req.params.id - 1) * 5).limit(5).toArray();
+  res.render('list.ejs', { posts : result });
+})

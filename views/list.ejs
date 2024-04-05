@@ -33,18 +33,30 @@
 
     <script>
       // 각 삭제 버튼에 대해 이벤트 리스너를 추가합니다.
-      document.querySelectorAll('.delete').forEach(function(span) {
-        span.addEventListener('click', function(e) {
+      // document.querySelectorAll('.delete').forEach(function(button) {
+      //   button.addEventListener('click', function(e) {
+      //     // 클릭된 버튼의 데이터 ID를 가져와서 삭제 요청을 보냅니다.
+      //     fetch('/delete?docid=' + e.target.dataset.id, {
+      //       method: 'DELETE'
+      //     });
+      //   });
+      // });
+      var deleteButtons = document.querySelectorAll('.delete');
+
+      // 각 삭제 버튼에 대해 이벤트 리스너를 추가합니다.
+      for (var i = 0; i < deleteButtons.length; i++) {
+        // 클로저를 사용하여 각 삭제 버튼의 이벤트 리스너를 설정합니다.
+        deleteButtons[i].addEventListener('click', function(e) {
           // 클릭된 버튼의 데이터 ID를 가져와서 삭제 요청을 보냅니다.
           fetch('/delete?docid=' + e.target.dataset.id, {
             method: 'DELETE'
           });
         });
-      });
+      }
+
     </script>
 </body>
 </html>
-
 
 
 
