@@ -11,6 +11,34 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
 
+const session = require('express-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+
+app.use(passport.initialize())
+app.use(session({
+  secret: '암호화에 쓸 비번',
+  resave : false,
+  saveUninitialized : false
+}))
+
+app.use(passport.session())
+
+
+passport.use(new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
+  let result = await db.collection('user').findOne({ username : 입력한아이디})
+  if (!result) {
+    return cb(null, false, { message : '아이디 DB에 없음' })
+  }
+  if (result.password == 입력한비번) {
+    return cb(null, result)
+  } else {
+    return cb(null, false, { message : '비번불일치' });
+  }
+}))
+
+
+
 let db;
 const url = 'mongodb+srv://admin:qqqq1111@cluster0.nzbpycy.mongodb.net/?retryWrites=true&w=majority'
 new MongoClient(url).connect().then((client)=>{
@@ -104,4 +132,18 @@ app.delete('/delete', async (req, res) => {
 app.get('/list/:id', async(req, res) => {
   let result = await db.collection('post').find().skip((req.params.id - 1) * 5).limit(5).toArray();
   res.render('list.ejs', { posts : result });
+})
+
+app.get('/login', async(req, res) => {
+  res.render('login.ejs');
+})
+
+app.post('/login', async (req, res, next) => {
+  passport.authenticate('local', (error, user, info)=>{
+    if (error) return req.status(500).json(error);
+    if (!user) return req.status(410).json(info.message);
+    req.login(user, (err) => {
+      res.redirect('/list');
+    })
+  })(req, res, next);
 })
